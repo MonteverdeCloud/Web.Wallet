@@ -53,6 +53,13 @@
                 <h3>Recibos</h3>
                 <p>Genera recibos</p>
             </div>
+            <div class="feature-card wallet" id="loansBtn">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-money-bill-wave" aria-hidden="true"></i>
+                </div>
+                <h3>Prestamos</h3>
+                <p>Prestamos realizados</p>
+            </div>
         </section>
 
         <!-- Barra de navegación inferior -->
@@ -93,6 +100,7 @@
         const logoutBtn = document.getElementById("logoutBtn");
 
         const invoiceBtn = document.getElementById("invoiceBtn");
+        const loansBtn = document.getElementById("loansBtn");
 
         // Constantes de apps
         const app = "/app/{feature}/index.html";
@@ -100,7 +108,8 @@
         const appLlavero = app.replace("{feature}", "keys");
         const appNotas = app.replace("{feature}", "notes");
         const appRecibos = app.replace("{feature}", "invoice");
-        
+        const appPrestamos = app.replace("{feature}", "loans");
+
         // Validar sesión y mostrar datos
         validarSesion({
             onUserLogged: (user) => {
@@ -121,6 +130,7 @@
 
         //Navegación
         invoiceBtn.addEventListener("click", () => window.location.href = appRecibos);
+        loansBtn.addEventListener("click", () => window.location.href = appPrestamos);
 
         // Barra inferior
         document.querySelectorAll('.nav-item').forEach(item => {
