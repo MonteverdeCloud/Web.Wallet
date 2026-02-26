@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport" />
     <title>Nuevo Préstamo</title>
     <!-- Tailwind CSS CDN with plugins -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -24,7 +24,6 @@
         /* Custom focus styles for inputs */
         input:focus {
             outline: none !important;
-            ring: none !important;
             border-color: #2ECC71 !important;
         }
 
@@ -44,7 +43,7 @@
         <div class="loading-text">Validando sesión...</div>
     </div>
 
-    <div class="app-container h-full flex flex-col" id="appContainer">
+    <div class="app-container w-full max-w-[480px] mx-auto min-h-screen flex flex-col relative" id="appContainer">
         <!-- BEGIN: Header -->
         <header class="sticky top-0 z-10 bg-black/80 backdrop-blur-md px-6 py-8" data-purpose="app-header">
             <div class="flex items-center gap-4">
@@ -140,7 +139,8 @@
         </main>
         <!-- END: MainContent -->
         <!-- BEGIN: StickyFooterAction -->
-        <footer class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-dark-bg via-dark-bg to-transparent"
+        <footer
+            class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black via-black to-transparent max-w-[480px] mx-auto"
             data-purpose="footer-action">
             <button
                 class="w-full bg-brand-green py-4 rounded-2xl text-black font-bold text-lg active:scale-95 transition-transform"
