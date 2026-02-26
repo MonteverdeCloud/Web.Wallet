@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <title>Nuevo Préstamo</title>
+    <!-- Tailwind CSS CDN with plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="/styles/app.css">
+    <!-- Agrega Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style data-purpose="custom-layout">
+        /* Ensure the body takes up the full viewport height and hides scrollbars for a native app feel */
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow: hidden;
+        }
+
+        /* Custom focus styles for inputs */
+        input:focus {
+            outline: none !important;
+            ring: none !important;
+            border-color: #2ECC71 !important;
+        }
+
+        /* Hide spin buttons for number inputs */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body class="h-full flex flex-col font-sans">
+    <!-- Overlay de carga -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Validando sesión...</div>
+    </div>
+
+    <div class="app-container h-full flex flex-col" id="appContainer">
+        <!-- BEGIN: Header -->
+        <header class="sticky top-0 z-10 bg-black/80 backdrop-blur-md px-6 py-8" data-purpose="app-header">
+            <div class="flex items-center gap-4">
+                <button aria-label="Volver" class="p-2 rounded-full bg-slate-800 hover:bg-slate-700 transition-colors"
+                    onclick="history.back()">
+                    <i class="fa-solid fa-arrow-left w-6 h-6 flex items-center justify-center"></i>
+                </button>
+                <h1 class="text-2xl font-bold leading-tight">¿Cuánto<br />dinero necesitás?</h1>
+            </div>
+        </header>
+
+        <!-- END: NavigationHeader -->
+        <!-- BEGIN: MainContent -->
+        <main class="flex-1 px-6 overflow-y-auto pb-24" data-purpose="loan-form-container">
+            <!-- BEGIN: LoanAmountInput -->
+            <div class="mb-8" data-purpose="amount-selector">
+                <div class="bg-card-bg rounded-3xl p-6 flex items-center justify-center relative shadow-lg">
+                    <span class="text-3xl font-medium text-white mr-2">₡</span>
+                    <input
+                        class="bg-transparent text-4xl font-bold text-white border-none focus:ring-0 p-0 w-full text-center"
+                        id="monto-prestamo" placeholder="0" type="text" inputmode="numeric" value="300.000,00" />
+                </div>
+            </div>
+            <!-- END: LoanAmountInput -->
+            <!-- BEGIN: FormFields -->
+            <div class="space-y-6" data-purpose="loan-parameters">
+                <!-- Interest Rate -->
+                <div class="flex flex-col">
+                    <label class="text-gray-400 text-sm mb-2 px-1" for="tasa-interes">Tasa de interés (%)</label>
+                    <div class="bg-input-bg rounded-xl px-4 py-3 flex items-center">
+                        <span class="mr-3 text-gray-500">%</span>
+                        <input class="bg-transparent border-none text-white w-full focus:ring-0 p-0" id="tasa-interes"
+                            step="0.001" type="number" value="2.911" />
+                    </div>
+                </div>
+                <!-- Term (Months) -->
+                <div class="flex flex-col">
+                    <label class="text-gray-400 text-sm mb-2 px-1" for="plazo-meses">Plazo (meses)</label>
+                    <div class="bg-input-bg rounded-xl px-4 py-3 flex items-center">
+                        <svg class="h-5 w-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                        </svg>
+                        <input class="bg-transparent border-none text-white w-full focus:ring-0 p-0" id="plazo-meses"
+                            type="number" value="60" />
+                    </div>
+                </div>
+                <!-- Commission Fee -->
+                <div class="flex flex-col">
+                    <label class="text-gray-400 text-sm mb-2 px-1" for="comision">Comisión por desembolso (%)</label>
+                    <div class="bg-input-bg rounded-xl px-4 py-3 flex items-center">
+                        <span class="mr-3 text-gray-500">%</span>
+                        <input class="bg-transparent border-none text-white w-full focus:ring-0 p-0" id="comision"
+                            step="0.01" type="number" value="6.49" />
+                    </div>
+                </div>
+            </div>
+            <!-- END: FormFields -->
+            <!-- BEGIN: SummarySection -->
+            <section class="mt-10 pt-6 border-t border-white/10" data-purpose="loan-summary">
+                <div class="inline-block bg-input-bg rounded-full px-4 py-1 mb-4 text-xs font-medium text-gray-300">
+                    Condiciones
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-white">
+                            <svg class="h-5 w-5 mr-3 text-gray-500" fill="none" stroke="currentColor"
+                                viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                            </svg>
+                            <span>Cuota mensual:</span>
+                        </div>
+                        <span class="font-bold text-white" id="display-cuota">₡11,380</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-white">
+                            <svg class="h-5 w-5 mr-3 text-gray-500" fill="none" stroke="currentColor"
+                                viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"></path>
+                            </svg>
+                            <span>Monto Total:</span>
+                        </div>
+                        <span class="font-bold text-white" id="display-total">₡682,800</span>
+                    </div>
+                </div>
+            </section>
+            <!-- END: SummarySection -->
+        </main>
+        <!-- END: MainContent -->
+        <!-- BEGIN: StickyFooterAction -->
+        <footer class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-dark-bg via-dark-bg to-transparent"
+            data-purpose="footer-action">
+            <button
+                class="w-full bg-brand-green py-4 rounded-2xl text-black font-bold text-lg active:scale-95 transition-transform"
+                data-purpose="submit-btn">
+                Continuar
+            </button>
+            <!-- iOS Home Indicator Spacing -->
+            <div class="h-4"></div>
+        </footer>
+        <!-- END: StickyFooterAction -->
+    </div>
+    <!-- END: appContainer -->
+
+    <!-- BEGIN: DynamicCalculations -->
+    <script type="module">
+        import { validarSesion } from "/js/auth.js";
+
+        // Validar sesión
+        validarSesion({
+            onUserLogged: (user) => {
+                console.log('Usuario logueado:', user);
+            },
+            onError: () => {
+                window.location.href = "/app/login.html";
+            }
+        });
+
+        const montoInput = document.getElementById('monto-prestamo');
+        const tasaInput = document.getElementById('tasa-interes');
+        const plazoInput = document.getElementById('plazo-meses');
+        const comisionInput = document.getElementById('comision');
+
+        const displayCuota = document.getElementById('display-cuota');
+        const displayTotal = document.getElementById('display-total');
+
+        function formatCurrency(value) {
+            // Remove all non-digits
+            let cleanValue = value.replace(/\D/g, '');
+            if (cleanValue === '') return '0,00';
+
+            // Treat as integer divided by 100 for 2 decimal places
+            const number = parseInt(cleanValue, 10) / 100;
+
+            return number.toLocaleString('es-CR', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        function parseCurrency(value) {
+            // Costa Rica: 1.234,56 -> 1234.56
+            return parseFloat(value.replace(/\./g, '').replace(',', '.')) || 0;
+        }
+
+        function calculateLoan() {
+            const P_requested = parseCurrency(montoInput.value);
+            const monthlyRate = (parseFloat(tasaInput.value) || 0) / 100;
+            const n = parseInt(plazoInput.value) || 0;
+            const comisionRate = (parseFloat(comisionInput.value) || 0) / 100;
+
+            if (P_requested > 0 && n > 0) {
+                // 1. Calculate Principal Total (Amount requested + Commission)
+                // Formula: Monto + (Monto * % Desembolso)
+                const P_total = P_requested + (P_requested * comisionRate);
+
+                // 2. Calculate Monthly Payment (Cuota)
+                // Formula: (Monto Total / Plazo) + (Monto Total * Tasa de Interés)
+                const cuota = (P_total / n) + (P_total * monthlyRate);
+
+                // 3. Monto Total is just P_total
+                const total = P_total;
+
+                displayCuota.innerText = `₡${Math.round(cuota).toLocaleString('es-CR')}`;
+                displayTotal.innerText = `₡${Math.round(total).toLocaleString('es-CR')}`;
+            } else {
+                displayCuota.innerText = '₡0';
+                displayTotal.innerText = '₡0';
+            }
+        }
+
+        // Add event listeners for dynamic updates
+        montoInput.addEventListener('input', (e) => {
+            const formatted = formatCurrency(e.target.value);
+            e.target.value = formatted;
+
+            // Set cursor to the end for ATM-style input
+            e.target.setSelectionRange(formatted.length, formatted.length);
+
+            calculateLoan();
+        });
+
+        [tasaInput, plazoInput, comisionInput].forEach(input => {
+            input.addEventListener('input', calculateLoan);
+        });
+
+        // Initial calculation
+        calculateLoan();
+    </script>
+    <!-- END: DynamicCalculations -->
+</body>
+
+</html>

@@ -142,7 +142,7 @@
             },
             onError: () => {
                 // Redirigir al login si hay error
-                window.location.href = '/login.html';
+                window.location.href = '/app/login.html';
             }
         });
 
@@ -155,6 +155,18 @@
                 loadingOverlay.classList.add('hidden');
                 appContainer.classList.add('loaded');
             }, 500);
+        });
+
+        // Redirecciones
+        document.querySelector('[data-purpose="bottom-action"] button').addEventListener('click', () => {
+            window.location.href = 'add.html';
+        });
+
+        document.querySelectorAll('[data-purpose="loan-card"]').forEach(card => {
+            card.addEventListener('click', () => {
+                window.location.href = 'details.html';
+            });
+            card.style.cursor = 'pointer';
         });
     </script>
 </body>
