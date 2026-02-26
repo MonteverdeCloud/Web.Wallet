@@ -201,20 +201,26 @@
             const n = parseInt(plazoInput.value) || 0;
             const comisionRate = (parseFloat(comisionInput.value) || 0) / 100;
 
-            if (P_requested > 0 && n > 0) {
-                // 1. Calculate Principal Total (Amount requested + Commission)
-                // Formula: Monto + (Monto * % Desembolso)
+            if (P_requested > 0 && n > 0 && monthlyRate > 0) {
+                // 1. Calcular Capital Total (Monto solicitado + Comisión)
                 const P_total = P_requested + (P_requested * comisionRate);
 
-                // 2. Calculate Monthly Payment (Cuota)
-                // Formula: (Monto Total / Plazo) + (Monto Total * Tasa de Interés)
-                const cuota = (P_total / n) + (P_total * monthlyRate);
+                // 2. Calcular Cuota Mensual con fórmula correcta (Sistema Francés)
+                // Fórmula: P_total * [ (i * (1+i)^n) / ((1+i)^n - 1) ]
+                const factorInteres = Math.pow(1 + monthlyRate, n);
+                const cuota = P_total * (monthlyRate * factorInteres) / (factorInteres - 1);
 
-                // 3. Monto Total is just P_total
-                const total = P_total;
+                // 3. Calcular Monto Total a pagar
+                const total = cuota * n;
 
+                // Mostrar resultados redondeados
                 displayCuota.innerText = `₡${Math.round(cuota).toLocaleString('es-CR')}`;
                 displayTotal.innerText = `₡${Math.round(total).toLocaleString('es-CR')}`;
+
+                // También podrías mostrar el detalle:
+                console.log('Capital total financiado:', P_total);
+                console.log('Cuota mensual calculada:', cuota);
+                console.log('Total a pagar:', total);
             } else {
                 displayCuota.innerText = '₡0';
                 displayTotal.innerText = '₡0';
