@@ -1,0 +1,160 @@
+[
+    {
+        "id": 2,
+        "nombre": "Yoiser",
+        "montoDePrestamo": 357735.76,
+        "montoPendiente": 306630.65,
+        "tasaInteres": 0.02911,
+        "plazoEnMeses": 7,
+        "cuotas": [
+            {
+                "numero": 1,
+                "monto": 51105.11,
+                "fechaVencimiento": "2026-04-01",
+                "estado": 2
+            },
+            {
+                "numero": 2,
+                "monto": 51105.11,
+                "fechaVencimiento": "2026-05-01",
+                "estado": 1
+            },
+            {
+                "numero": 3,
+                "monto": 51105.11,
+                "fechaVencimiento": "2026-06-01",
+                "estado": 0
+            },
+            {
+                "numero": 4,
+                "monto": 51105.11,
+                "fechaVencimiento": "2026-07-01",
+                "estado": 0
+            },
+            {
+                "numero": 5,
+                "monto": 51105.11,
+                "fechaVencimiento": "2026-08-01",
+                "estado": 0
+            },
+            {
+                "numero": 6,
+                "monto": 51105.11,
+                "fechaVencimiento": "2026-09-01",
+                "estado": 0
+            },
+            {
+                "numero": 7,
+                "monto": 51105.11,
+                "fechaVencimiento": "2026-10-01",
+                "estado": 0
+            }
+        ]
+    },
+    {
+        "id": 1,
+        "nombre": "Chiri",
+        "montoDePrestamo": 800000,
+        "montoPendiente": 700000,
+        "tasaInteres": 0.00,
+        "plazoEnMeses": 16,
+        "cuotas": [
+            {
+                "numero": 1,
+                "monto": 50000,
+                "fechaVencimiento": "2026-03-01",
+                "estado": 2
+            },
+            {
+                "numero": 2,
+                "monto": 50000,
+                "fechaVencimiento": "2026-04-01",
+                "estado": 2
+            },
+            {
+                "numero": 3,
+                "monto": 50000,
+                "fechaVencimiento": "2026-05-01",
+                "estado": 1
+            },
+            {
+                "numero": 4,
+                "monto": 50000,
+                "fechaVencimiento": "2026-06-01",
+                "estado": 0
+            },
+            {
+                "numero": 5,
+                "monto": 50000,
+                "fechaVencimiento": "2026-07-01",
+                "estado": 0
+            },
+            {
+                "numero": 6,
+                "monto": 50000,
+                "fechaVencimiento": "2026-08-01",
+                "estado": 0
+            },
+            {
+                "numero": 7,
+                "monto": 50000,
+                "fechaVencimiento": "2026-09-01",
+                "estado": 0
+            },
+            {
+                "numero": 8,
+                "monto": 50000,
+                "fechaVencimiento": "2026-10-01",
+                "estado": 0
+            },
+            {
+                "numero": 9,
+                "monto": 50000,
+                "fechaVencimiento": "2026-11-01",
+                "estado": 0
+            },
+            {
+                "numero": 10,
+                "monto": 50000,
+                "fechaVencimiento": "2026-12-01",
+                "estado": 0
+            },
+            {
+                "numero": 11,
+                "monto": 50000,
+                "fechaVencimiento": "2027-01-01",
+                "estado": 0
+            },
+            {
+                "numero": 12,
+                "monto": 50000,
+                "fechaVencimiento": "2027-02-01",
+                "estado": 0
+            },
+            {
+                "numero": 13,
+                "monto": 50000,
+                "fechaVencimiento": "2027-03-01",
+                "estado": 0
+            },
+            {
+                "numero": 14,
+                "monto": 50000,
+                "fechaVencimiento": "2027-04-01",
+                "estado": 0
+            },
+            {
+                "numero": 15,
+                "monto": 50000,
+                "fechaVencimiento": "2027-05-01",
+                "estado": 0
+            },
+            {
+                "numero": 16,
+                "monto": 50000,
+                "fechaVencimiento": "2027-06-01",
+                "estado": 0
+            }
+        ]
+    }
+]

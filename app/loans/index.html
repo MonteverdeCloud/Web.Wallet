@@ -47,6 +47,85 @@
         body {
             background-color: #000000 !important;
         }
+
+        /* Animación de entrada para cada tarjeta */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loan-card {
+            animation: slideUp 0.35s ease both;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .loan-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px -8px rgba(34, 197, 94, 0.18);
+            border-color: rgba(34, 197, 94, 0.35) !important;
+        }
+
+        .loan-card:active {
+            transform: scale(0.98);
+        }
+
+        /* Barra de progreso animada */
+        .progress-bar-fill {
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Tag atrasado */
+        .tag-late {
+            background-color: rgba(239, 68, 68, 0.12);
+            color: #f87171;
+            border-color: rgba(239, 68, 68, 0.25);
+        }
+
+        /* Tag al día */
+        .tag-ok {
+            background-color: rgba(34, 197, 94, 0.12);
+            color: #22c55e;
+            border-color: rgba(34, 197, 94, 0.25);
+        }
+
+        /* Tag pending (sin cuotas pagadas aún) */
+        .tag-pending {
+            background-color: rgba(148, 163, 184, 0.12);
+            color: #94a3b8;
+            border-color: rgba(148, 163, 184, 0.2);
+        }
+
+        /* Skeleton loader */
+        .skeleton {
+            background: linear-gradient(90deg, #1e293b 25%, #263349 50%, #1e293b 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Estado vacío */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 24px;
+            gap: 16px;
+            text-align: center;
+            color: #64748b;
+        }
     </style>
 </head>
 
@@ -69,57 +148,51 @@
             </div>
         </header>
         <!-- END: Header -->
+
         <!-- BEGIN: LoanList -->
-        <main class="flex-grow px-6 space-y-4 no-scrollbar overflow-y-auto">
-            <!-- Loan Item 1 -->
-            <article class="bg-card-bg p-5 rounded-2xl border border-slate-700/50 shadow-lg" data-purpose="loan-card">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h2 class="text-sm font-medium text-slate-400 uppercase tracking-wider">Brian Mendoza</h2>
-                        <p class="text-xl font-bold mt-1">₡357,735.76</p>
+        <main class="flex-grow px-6 space-y-4 no-scrollbar overflow-y-auto" id="loanList">
+            <!-- Skeletons mientras carga -->
+            <div id="skeletonContainer" class="space-y-4">
+                <div class="bg-card-bg p-5 rounded-2xl border border-slate-700/50 shadow-lg">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="space-y-2">
+                            <div class="skeleton h-3 w-24"></div>
+                            <div class="skeleton h-6 w-36 mt-1"></div>
+                        </div>
+                        <div class="skeleton h-6 w-16 rounded-full"></div>
                     </div>
-                    <span
-                        class="px-3 py-1 bg-vibrant-green/10 text-vibrant-green text-xs font-bold rounded-full border border-vibrant-green/20">
-                        Al día
-                    </span>
-                </div>
-                <div class="space-y-2">
-                    <div class="flex justify-between text-xs text-slate-400">
-                        <span>Progreso del pago</span>
-                        <span>0 de 7 cuotas</span>
-                    </div>
-                    <div class="w-full bg-slate-700 rounded-full h-2">
-                        <div class="bg-vibrant-green h-2 rounded-full" style="width: 0%"></div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <div class="skeleton h-3 w-28"></div>
+                            <div class="skeleton h-3 w-20"></div>
+                        </div>
+                        <div class="skeleton h-2 w-full rounded-full"></div>
                     </div>
                 </div>
-            </article>
-            <!-- Loan Item 2 -->
-            <article class="bg-card-bg p-5 rounded-2xl border border-slate-700/50 shadow-lg" data-purpose="loan-card">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h2 class="text-sm font-medium text-slate-400 uppercase tracking-wider">Christian Martínez</h2>
-                        <p class="text-xl font-bold mt-1">₡800,000.00</p>
+                <div class="bg-card-bg p-5 rounded-2xl border border-slate-700/50 shadow-lg">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="space-y-2">
+                            <div class="skeleton h-3 w-28"></div>
+                            <div class="skeleton h-6 w-40 mt-1"></div>
+                        </div>
+                        <div class="skeleton h-6 w-16 rounded-full"></div>
                     </div>
-                    <span
-                        class="px-3 py-1 bg-vibrant-green/10 text-vibrant-green text-xs font-bold rounded-full border border-vibrant-green/20">
-                        Al día
-                    </span>
-                </div>
-                <div class="space-y-2">
-                    <div class="flex justify-between text-xs text-slate-400">
-                        <span>Progreso del pago</span>
-                        <span>0 de 16 cuotas</span>
-                    </div>
-                    <div class="w-full bg-slate-700 rounded-full h-2">
-                        <div class="bg-vibrant-green h-2 rounded-full" style="width: 0%"></div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <div class="skeleton h-3 w-28"></div>
+                            <div class="skeleton h-3 w-24"></div>
+                        </div>
+                        <div class="skeleton h-2 w-full rounded-full"></div>
                     </div>
                 </div>
-            </article>
+            </div>
+            <!-- Las tarjetas reales se insertan aquí -->
         </main>
         <!-- END: LoanList -->
+
         <!-- BEGIN: FixedActionButton -->
         <div class="fixed bottom-8 left-0 right-0 px-6 max-w-[480px] mx-auto" data-purpose="bottom-action">
-            <button
+            <button id="btnNuevoPrestamo"
                 class="w-full bg-vibrant-green hover:bg-green-500 active:scale-95 transition-all duration-200 text-dark-bg font-bold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(34,197,94,0.5)]">
                 <svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
@@ -132,41 +205,202 @@
     </div>
 
     <script type="module">
-        import { validarSesion, cerrarSesion } from "/js/auth.js";
+        import { validarSesion } from "/js/auth.js";
 
-        // Validar sesión y mostrar datos
+        // ────────────────────────────────────────────────────────────
+        // Helpers
+        // ────────────────────────────────────────────────────────────
+
+        /** Formatea un número como moneda costarricense ₡ */
+        function formatCurrency(amount) {
+            return '₡' + Number(amount).toLocaleString('es-CR', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        /**
+         * Determina si el préstamo está "Al día".
+         * Lógica: la última cuota con estado 2 (pagada) no puede tener
+         * una fecha de vencimiento mayor a hoy; si no hay cuotas pagadas
+         * se retorna null (sin datos suficientes para decidir).
+         *
+         * En la práctica: si la cuota pendiente más próxima (estado 1 ó 0)
+         * tenía que pagarse antes de hoy → atrasado. De lo contrario → al día.
+         */
+        function calcularEstado(cuotas) {
+            const hoy = new Date();
+            hoy.setHours(0, 0, 0, 0);
+
+            // Ordenar cuotas por número
+            const ordenadas = [...cuotas].sort((a, b) => a.numero - b.numero);
+
+            // Buscar la primera cuota NO pagada (estado != 2) con fechaVencimiento pasada
+            const vencidaSinPagar = ordenadas.find(c => c.estado !== 2 && new Date(c.fechaVencimiento) < hoy);
+
+            if (vencidaSinPagar) return 'late';
+
+            // Si todas están al corriente pero ninguna ha sido pagada aún
+            const pagadas = ordenadas.filter(c => c.estado === 2);
+            if (pagadas.length === 0) return 'pending';
+
+            return 'ok';
+        }
+
+        /** Construye el HTML de una tarjeta de préstamo */
+        function buildLoanCard(loan, index) {
+            const totalCuotas = loan.cuotas.length;
+            const cuotasPagadas = loan.cuotas.filter(c => c.estado === 2).length;
+            const progresoPct = totalCuotas > 0 ? Math.round((cuotasPagadas / totalCuotas) * 100) : 0;
+            const estado = calcularEstado(loan.cuotas);
+
+            const tagClasses = {
+                ok:      'tag-ok',
+                late:    'tag-late',
+                pending: 'tag-pending'
+            };
+            const tagLabels = {
+                ok:      'Al día',
+                late:    'Atrasado',
+                pending: 'Pendiente'
+            };
+            const tagIcons = {
+                ok:      'fa-circle-check',
+                late:    'fa-circle-exclamation',
+                pending: 'fa-clock'
+            };
+
+            const tagClass = tagClasses[estado];
+            const tagLabel = tagLabels[estado];
+            const tagIcon  = tagIcons[estado];
+
+            // Barra de progreso: verde si ok, rojo si atrasado, gris si pendiente
+            const barColor = estado === 'ok' ? 'bg-vibrant-green'
+                           : estado === 'late' ? 'bg-red-500'
+                           : 'bg-slate-500';
+
+            return `
+            <article
+                id="loan-card-${loan.id}"
+                class="loan-card bg-card-bg p-5 rounded-2xl border border-slate-700/50 shadow-lg"
+                data-purpose="loan-card"
+                data-loan-id="${loan.id}"
+                style="animation-delay: ${index * 0.07}s"
+                role="button"
+                tabindex="0"
+                aria-label="Ver detalles del préstamo de ${loan.nombre}"
+            >
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h2 class="text-sm font-medium text-slate-400 uppercase tracking-wider">${loan.nombre}</h2>
+                        <p class="text-xl font-bold mt-1">${formatCurrency(loan.montoPendiente)}</p>
+                    </div>
+                    <span class="px-3 py-1 text-xs font-bold rounded-full border flex items-center gap-1 ${tagClass}">
+                        <i class="fa-solid ${tagIcon} text-[10px]"></i>
+                        ${tagLabel}
+                    </span>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-xs text-slate-400">
+                        <span>Progreso del pago</span>
+                        <span>${cuotasPagadas} de ${totalCuotas} cuotas</span>
+                    </div>
+                    <div class="w-full bg-slate-700 rounded-full h-2">
+                        <div
+                            class="progress-bar-fill ${barColor} h-2 rounded-full"
+                            style="width: 0%"
+                            data-target-width="${progresoPct}%"
+                        ></div>
+                    </div>
+                </div>
+            </article>`;
+        }
+
+        // ────────────────────────────────────────────────────────────
+        // Carga de datos
+        // ────────────────────────────────────────────────────────────
+
+        async function cargarPrestamos() {
+            const loanList = document.getElementById('loanList');
+            const skeletonContainer = document.getElementById('skeletonContainer');
+
+            try {
+                const response = await fetch('/app/loans/data/loans.json');
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const loans = await response.json();
+
+                // Eliminar skeletons
+                skeletonContainer.remove();
+
+                if (!loans || loans.length === 0) {
+                    loanList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fa-solid fa-hand-holding-dollar text-5xl text-slate-700"></i>
+                            <p class="text-slate-400 font-medium">No hay préstamos registrados</p>
+                            <p class="text-sm text-slate-600">Agrega un nuevo préstamo con el botón de abajo.</p>
+                        </div>`;
+                    return;
+                }
+
+                // Renderizar tarjetas
+                const cardsHTML = loans.map((loan, i) => buildLoanCard(loan, i)).join('');
+                loanList.insertAdjacentHTML('beforeend', cardsHTML);
+
+                // Animar barras de progreso tras render
+                requestAnimationFrame(() => {
+                    document.querySelectorAll('.progress-bar-fill').forEach(bar => {
+                        const target = bar.getAttribute('data-target-width');
+                        setTimeout(() => { bar.style.width = target; }, 150);
+                    });
+                });
+
+                // Eventos de clic para cada tarjeta
+                document.querySelectorAll('[data-purpose="loan-card"]').forEach(card => {
+                    const id = card.getAttribute('data-loan-id');
+                    const navigate = () => { window.location.href = `details.html?id=${id}`; };
+                    card.addEventListener('click', navigate);
+                    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') navigate(); });
+                });
+
+            } catch (err) {
+                console.error('Error al cargar préstamos:', err);
+                skeletonContainer.remove();
+                loanList.innerHTML = `
+                    <div class="error-message mx-0">
+                        <i class="fa-solid fa-triangle-exclamation mr-2"></i>
+                        No se pudieron cargar los préstamos. Intenta de nuevo.
+                    </div>`;
+            }
+        }
+
+        // ────────────────────────────────────────────────────────────
+        // Init
+        // ────────────────────────────────────────────────────────────
+
         validarSesion({
             onUserLogged: (user) => {
-                // Aquí puedes agregar lógica para mostrar información del usuario si es necesario
                 console.log('Usuario logueado:', user);
             },
             onError: () => {
-                // Redirigir al login si hay error
                 window.location.href = '/app/login.html';
             }
         });
 
-        // Simular carga para mostrar el contenido
-        window.addEventListener('load', () => {
+        window.addEventListener('load', async () => {
             const loadingOverlay = document.getElementById('loadingOverlay');
-            const appContainer = document.getElementById('appContainer');
+            const appContainer   = document.getElementById('appContainer');
+
+            await cargarPrestamos();
 
             setTimeout(() => {
                 loadingOverlay.classList.add('hidden');
                 appContainer.classList.add('loaded');
-            }, 500);
+            }, 400);
         });
 
-        // Redirecciones
-        document.querySelector('[data-purpose="bottom-action"] button').addEventListener('click', () => {
+        // Botón nuevo préstamo
+        document.getElementById('btnNuevoPrestamo').addEventListener('click', () => {
             window.location.href = 'add.html';
-        });
-
-        document.querySelectorAll('[data-purpose="loan-card"]').forEach(card => {
-            card.addEventListener('click', () => {
-                window.location.href = 'details.html';
-            });
-            card.style.cursor = 'pointer';
         });
     </script>
 </body>
