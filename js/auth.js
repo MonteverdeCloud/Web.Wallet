@@ -2,6 +2,9 @@ import { auth } from "/js/firebase.config.js";
 import { signOut, onAuthStateChanged }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
+/** Único correo autorizado para acceder a la aplicación */
+const CORREO_AUTORIZADO = "brayanmd4@gmail.com";
+
 /** Muestra el overlay de carga */
 function mostrarLoading() {
     const overlay = document.getElementById("loadingOverlay");
@@ -28,8 +31,15 @@ function ocultarLoading() {
  */
 export function validarSesion({ onUserLogged, onError }) {
     mostrarLoading();
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
         if (user) {
+            // Verificar que el correo sea el autorizado
+            if (user.email !== CORREO_AUTORIZADO) {
+                console.warn("Acceso denegado para:", user.email);
+                await signOut(auth);
+                window.location.href = "/app/login.html?error=acceso_denegado";
+                return;
+            }
             const data = {
                 uid: user.uid,
                 nombre: user.displayName || "Usuario",

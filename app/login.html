@@ -323,15 +323,37 @@
             }, 5000);
         }
 
+        /** Único correo autorizado */
+        const CORREO_AUTORIZADO = "brayanmd4@gmail.com";
+
+        /** Muestra un mensaje de error personalizado */
+        function showErrorMsg(msg) {
+            loginBtn.style.display = 'flex';
+            loginBtn.disabled = false;
+            loading.classList.remove('active');
+            errorMessage.textContent = msg;
+            errorMessage.classList.add('active');
+            setTimeout(() => {
+                errorMessage.classList.remove('active');
+            }, 6000);
+        }
+
         loginBtn.addEventListener('click', async () => {
             // Mostrar indicador de carga y deshabilitar botón
             showLoading();
             loginBtn.disabled = true;
 
             try {
-                await signInWithPopup(auth, provider);
-                // Si es exitoso, la redirección se maneja automáticamente
-                // No necesitamos hacer nada más aquí
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+
+                // Verificar que el correo sea el autorizado
+                if (user.email !== CORREO_AUTORIZADO) {
+                    await signOut(auth);
+                    showErrorMsg("⛔ Acceso denegado. Esta cuenta no está autorizada.");
+                    return;
+                }
+                // Si es exitoso y autorizado, la redirección la maneja onAuthStateChanged
             } catch (error) {
                 console.error("Error al iniciar sesión:", error);
 
@@ -345,12 +367,26 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                window.location.href = "/app/home/index.html";
+                // Solo redirigir si el correo es el autorizado
+                if (user.email === CORREO_AUTORIZADO) {
+                    window.location.href = "/app/home/index.html";
+                }
             } else {
                 // Asegurarse de que la UI esté en estado normal cuando no hay usuario
                 resetUI();
             }
         });
+
+        // Detectar redirección por acceso denegado desde auth.js
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('error') === 'acceso_denegado') {
+            // Limpiar el parámetro de la URL sin recargar
+            history.replaceState(null, '', window.location.pathname);
+            // Pequeño delay para que el DOM esté listo
+            setTimeout(() => {
+                showErrorMsg("⛔ Acceso denegado. Esta cuenta no está autorizada.");
+            }, 300);
+        }
 
         // Resetear la UI cuando la página se carga
         document.addEventListener('DOMContentLoaded', resetUI);
