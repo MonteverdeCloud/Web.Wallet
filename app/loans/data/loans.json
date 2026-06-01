@@ -3,7 +3,7 @@
         "id": 2,
         "nombre": "Yoiser",
         "montoDePrestamo": 357735.76,
-        "montoPendiente": 255525.54,
+        "montoPendiente": 204420.43,
         "tasaInteres": 0.02911,
         "plazoEnMeses": 7,
         "cuotas": [
@@ -23,13 +23,13 @@
                 "numero": 3,
                 "monto": 51105.11,
                 "fechaVencimiento": "2026-06-01",
-                "estado": 1
+                "estado": 2
             },
             {
                 "numero": 4,
                 "monto": 51105.11,
                 "fechaVencimiento": "2026-07-01",
-                "estado": 0
+                "estado": 1
             },
             {
                 "numero": 5,
@@ -55,7 +55,7 @@
         "id": 1,
         "nombre": "Chiri",
         "montoDePrestamo": 800000,
-        "montoPendiente": 650000,
+        "montoPendiente": 600000,
         "tasaInteres": 0.00,
         "plazoEnMeses": 16,
         "cuotas": [
@@ -81,13 +81,13 @@
                 "numero": 4,
                 "monto": 50000,
                 "fechaVencimiento": "2026-06-01",
-                "estado": 1
+                "estado": 2
             },
             {
                 "numero": 5,
                 "monto": 50000,
                 "fechaVencimiento": "2026-07-01",
-                "estado": 0
+                "estado": 1
             },
             {
                 "numero": 6,
