@@ -105,7 +105,7 @@
                 "numero": 8,
                 "monto": 50000,
                 "fechaVencimiento": "2026-10-01",
-                "estado": 0
+                "estado": 1
             },
             {
                 "numero": 9,
