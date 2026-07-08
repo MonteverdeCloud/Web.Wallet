@@ -55,7 +55,7 @@
         "id": 1,
         "nombre": "Chiri",
         "montoDePrestamo": 800000,
-        "montoPendiente": 520000,
+        "montoPendiente": 400000,
         "tasaInteres": 0.00,
         "plazoEnMeses": 16,
         "cuotas": [
@@ -93,13 +93,13 @@
                 "numero": 6,
                 "monto": 50000,
                 "fechaVencimiento": "2026-08-01",
-                "estado": 1
+                "estado": 2
             },
             {
                 "numero": 7,
                 "monto": 50000,
                 "fechaVencimiento": "2026-09-01",
-                "estado": 0
+                "estado": 2
             },
             {
                 "numero": 8,
@@ -153,7 +153,7 @@
                 "numero": 16,
                 "monto": 20000,
                 "fechaVencimiento": "2027-06-01",
-                "estado": 0
+                "estado": 2
             }
         ]
     }
