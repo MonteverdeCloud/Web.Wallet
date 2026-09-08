@@ -1,14 +1,14 @@
 {
     "empresa": {
         "nombre": "InnoCR",
-        "direccion": "100 metros norte de la escuela, San José",
-        "telefono": "8888-8888",
-        "correo": "prueba@empresa.com",
-        "sitioWeb": "www.empresa.com",
+        "direccion": "100 metros norte del CECUDI, Monteverde, Puntarenas",
+        "telefono": "6219-6744",
+        "correo": "bmendoza@innocr.com",
+        "sitioWeb": "https://innocr.com",
         "logo": "/img/logo.jpg"
     },
     "proforma": {
-        "numero": "2026071301",
-        "iva": 13
+        "numero": "2026081902",
+        "iva": 0
     }
 }

@@ -3,7 +3,7 @@
         "id": 2,
         "nombre": "Yoiser",
         "montoDePrestamo": 357735.76,
-        "montoPendiente": 153315.32,
+        "montoPendiente": 0,
         "tasaInteres": 0.02911,
         "plazoEnMeses": 7,
         "cuotas": [
@@ -35,19 +35,19 @@
                 "numero": 5,
                 "monto": 51105.11,
                 "fechaVencimiento": "2026-08-01",
-                "estado": 1
+                "estado": 2
             },
             {
                 "numero": 6,
-                "monto": 51105.11,
+                "monto": 52000.00,
                 "fechaVencimiento": "2026-09-01",
-                "estado": 0
+                "estado": 2
             },
             {
                 "numero": 7,
-                "monto": 51105.11,
+                "monto": 50210.22,
                 "fechaVencimiento": "2026-10-01",
-                "estado": 0
+                "estado": 2
             }
         ]
     },
