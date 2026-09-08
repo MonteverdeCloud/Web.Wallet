@@ -2,621 +2,123 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <link rel="icon" type="image/x-icon" href="/src/icons/mywallet.svg">
-    <link rel="apple-touch-icon" href="/src/icons/mywallet.png">
-    <link rel="manifest" href="/manifest.json">
-    <title>Crear Recibo</title>
-
-    <!-- PWA: Android -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#121212">
-    <!-- PWA: iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="My Wallet">
-    <!--/iOS--->
-
-    <!-- css -->
-    <link rel="stylesheet" href="./styles/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- /css -->
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Proforma InnoCR</title>
+    <!-- Font Awesome 6 (gratuito) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
-    <div class="app-container">
-        <header>
-            <h1><i class="fas fa-file-invoice-dollar" aria-hidden="true"></i> Crear Recibo</h1>
+
+    <div class="app-wrapper">
+        <!-- BARRA SUPERIOR -->
+        <header class="app-header">
+            <div class="header-left">
+                <img src="img/logo.jpg" alt="InnoCR" class="logo-img" id="logoPreview" />
+                <div class="company-info">
+                    <h1>InnoCR</h1>
+                    <p><i class="fas fa-map-pin"></i> 100 metros norte de la escuela, San José</p>
+                    <div class="contact-info">
+                        <span><i class="fas fa-phone"></i> 8888-8888</span>
+                        <span><i class="fas fa-envelope"></i> prueba@empresa.com</span>
+                        <span><i class="fas fa-globe"></i> www.empresa.com</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="proforma-badge">
+                    <i class="fas fa-file-invoice"></i> PROFORMA <strong id="proformaNum">2026071301</strong>
+                </span>
+            </div>
         </header>
 
-        <div class="form-container">
-            <div class="form-section">
-                <h2 class="form-section-title"><i class="fas fa-user-tie" aria-hidden="true"></i> Información del Emisor
-                </h2>
-
-                <div class="form-group">
-                    <label for="issuerName">Nombre o Empresa: <span class="optional">(requerido)</span></label>
-                    <input type="text" id="issuerName" placeholder="Su Nombre o el de su Empresa" required>
+        <!-- CUERPO PRINCIPAL -->
+        <main class="proforma-container" id="proformaPaper">
+            <!-- DATOS CLIENTE Y FECHA -->
+            <section class="cliente-fecha">
+                <div class="cliente-group">
+                    <label><i class="fas fa-user"></i> Cliente</label>
+                    <input type="text" id="clienteInput" value="Cliente Ejemplo" />
+                    <div class="print-only print-value" id="clientePrint"></div>
                 </div>
-
-                <div class="form-group">
-                    <label for="issuerId">Cédula de Identidad o Jurídica: <span
-                            class="optional">(requerido)</span></label>
-                    <input type="text" id="issuerId" placeholder="Su Cédula de Identidad o Jurídica" required>
+                <div class="fecha-group">
+                    <label><i class="fas fa-calendar-day"></i> Fecha</label>
+                    <input type="date" id="fechaInput" value="2026-07-13" />
+                    <div class="print-only print-value" id="fechaPrint"></div>
                 </div>
-
-                <div class="form-group">
-                    <label for="issuerPhone">Teléfono:</label>
-                    <input type="text" id="issuerPhone" placeholder="8888-8888 / 8888-8888">
+                <div class="moneda-group">
+                    <label><i class="fas fa-coins"></i> Moneda</label>
+                    <select id="monedaSelect">
+                        <option value="CRC">₡ Colones (CRC)</option>
+                        <option value="USD">$ Dólares (USD)</option>
+                    </select>
+                    <div class="print-only print-value" id="monedaPrint"></div>
                 </div>
+            </section>
 
-                <div class="form-group">
-                    <label for="issuerEmail">Correo Electrónico:</label>
-                    <input type="email" id="issuerEmail" placeholder="sunombre@saudominio.com">
-                </div>
-
-                <div class="form-group">
-                    <label for="issuerWebsite">Sitio Web: <span class="optional">(opcional)</span></label>
-                    <input type="text" id="issuerWebsite" placeholder="www.saudominio.com">
-                </div>
-
-                <div class="form-group">
-                    <label for="issuerAddress">Dirección:</label>
-                    <input type="text" id="issuerAddress" placeholder="Su Dirección">
-                </div>
+            <!-- TABLA DE ITEMS -->
+            <div class="table-responsive">
+                <table class="items-table" id="itemsTable">
+                    <thead>
+                        <tr>
+                            <th style="width:40%">Descripción</th>
+                            <th style="width:15%">Cantidad</th>
+                            <th style="width:20%">Precio unit.</th>
+                            <th style="width:20%">Total</th>
+                            <th style="width:5%"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemsBody">
+                        <!-- Filas generadas por JS -->
+                    </tbody>
+                </table>
             </div>
 
-            <div class="form-section">
-                <h2 class="form-section-title"><i class="fas fa-receipt" aria-hidden="true"></i> Detalles del Recibo
-                </h2>
+            <div class="print-only print-items-summary">
+                <table class="print-items-table">
+                    <thead>
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Cantidad</th>
+                            <th>Precio unit.</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="printItemsBody"></tbody>
+                </table>
+            </div>
 
-                <div class="form-group">
-                    <label for="date">Fecha: <span class="optional">(requerido)</span></label>
-                    <input type="date" id="date" required>
-                </div>
+            <!-- BOTÓN AÑADIR LÍNEA -->
+            <div class="add-row-btn">
+                <button id="addRowBtn"><i class="fas fa-plus-circle"></i> Añadir línea</button>
+            </div>
 
-                <div class="form-group">
-                    <label for="recipient">RECIBIMOS DE: <span class="optional">(requerido)</span></label>
-                    <input type="text" id="recipient" placeholder="Nombre del cliente" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="amount">LA SUMA DE: <span class="optional">(requerido)</span></label>
-                    <input type="text" id="amount" placeholder="Cantidad en colones" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="concept">POR CONCEPTO DE: <span class="optional">(requerido)</span></label>
-                    <textarea id="concept" placeholder="Descripción del pago" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>MÉTODO DE PAGO: <span class="optional">(requerido)</span></label>
-                    <div class="payment-methods">
-                        <div class="payment-method">
-                            <input type="radio" id="cash" name="payment" value="EFECTIVO" checked>
-                            <label for="cash" class="payment-label">
-                                EFECTIVO
-                            </label>
-                        </div>
-                        <div class="payment-method">
-                            <input type="radio" id="check" name="payment" value="CHEQUE">
-                            <label for="check" class="payment-label">
-                                CHEQUE
-                            </label>
-                        </div>
-                        <div class="payment-method">
-                            <input type="radio" id="bank" name="payment" value="BANCO">
-                            <label for="bank" class="payment-label">
-                                BANCO
-                            </label>
-                        </div>
+            <!-- DESCUENTO Y TOTALES -->
+            <div class="totales-panel">
+                <div class="totales-box">
+                    <div class="total-line"><span>Subtotal</span> <span id="subtotalDisplay">₡0.00</span></div>
+                    <div class="total-line descuento-line">
+                        <span>Descuento (%)</span>
+                        <input type="number" id="descuentoInput" value="0" min="0" max="100" step="0.5" />
+                        <span class="print-only print-discount-text" id="descuentoPrint"></span>
                     </div>
+                    <div class="total-line"><span>IVA (13%)</span> <span id="ivaDisplay">₡0.00</span></div>
+                    <div class="total-line grand-total"><span>Total</span> <span id="totalDisplay">₡0.00</span></div>
                 </div>
             </div>
 
-            <div class="form-section">
-                <h2 class="form-section-title"><i class="fas fa-file-alt" aria-hidden="true"></i> Información Adicional
-                </h2>
-
-                <div class="form-group">
-                    <label for="previousBalance">SALDO ANTERIOR:</label>
-                    <input type="text" id="previousBalance" placeholder="Saldo anterior">
-                </div>
-
-                <div class="form-group">
-                    <label for="currentBalance">SALDO ACTUAL:</label>
-                    <input type="text" id="currentBalance" placeholder="Saldo actual">
-                </div>
-
-                <div class="form-group">
-                    <div class="signature-title">Firma: <span class="optional">(opcional)</span></div>
-                    <div class="signature-container">
-                        <canvas class="signature-canvas" id="signatureCanvas"
-                            aria-label="Área para dibujar su firma"></canvas>
-                        <div class="signature-actions">
-                            <button class="btn-clear" id="clearSignature">Limpiar Firma</button>
-                        </div>
-                    </div>
-                </div>
+            <!-- BOTONES DE ACCIÓN -->
+            <div class="action-buttons">
+                <button class="btn-secondary" id="resetBtn"><i class="fas fa-undo-alt"></i> Reiniciar</button>
+                <button class="btn-primary" id="printBtn"><i class="fas fa-print"></i> Imprimir</button>
             </div>
-        </div>
-
-        <div class="bottom-actions">
-            <button class="btn-generate" onclick="showInvoiceModal()">
-                <i class="fas fa-eye" aria-hidden="true"></i> Ver Recibo
-            </button>
-        </div>
+        </main>
     </div>
 
-    <!-- Toast para mensajes -->
-    <div class="toast" id="toast" role="alert" aria-live="assertive">
-        <i class="fas fa-check-circle" aria-hidden="true"></i>
-        <span id="toast-message">PDF compartido exitosamente</span>
-    </div>
-
-    <!-- Loading indicator -->
-    <div class="loading" id="loading">
-        <div class="spinner" aria-hidden="true"></div>
-        <p>Generando PDF, por favor espere...</p>
-    </div>
-
-    <!-- Modal para mostrar la factura -->
-    <div class="modal" id="invoiceModal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" id="modal-title">Vista Previa de Factura</h2>
-                <button class="close-btn" onclick="closeInvoiceModal()" aria-label="Cerrar modal">&times;</button>
-            </div>
-
-            <div class="invoice-container">
-                <div class="invoice" id="invoice">
-                    <div class="invoice-issuer">
-                        <div id="preview-issuerName"><strong>Su Nombre o el de su Empresa</strong></div>
-                        <div id="preview-issuerId">Su Cédula de Identidad o Jurídica</div>
-                        <div id="preview-issuerPhone">Su Teléfono: 8888-8888 / 8888-8888</div>
-                        <div id="preview-issuerEmail">sunombre@saudominio.com</div>
-                        <div id="preview-issuerWebsite">www.saudominio.com</div>
-                        <div id="preview-issuerAddress">Su Dirección</div>
-                    </div>
-
-                    <div class="invoice-divider"></div>
-
-                    <div class="invoice-details">
-                        <div class="detail-row">
-                            <div class="detail-label">RECIBIMOS DE:</div>
-                            <div class="detail-value" id="preview-recipient"></div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">LA SUMA DE:</div>
-                            <div class="detail-value" id="preview-amount"></div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">COLONES</div>
-                            <div class="detail-value"></div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">POR CONCEPTO DE:</div>
-                            <div class="detail-value" id="preview-concept"></div>
-                        </div>
-
-                        <div class="payment-row">
-                            <div class="payment-selected" id="preview-payment">EFECTIVO</div>
-                        </div>
-
-                        <div class="balance-section">
-                            <div class="balance-row">
-                                <div class="balance-label">SALDO ANTERIOR</div>
-                                <div class="balance-value" id="preview-previousBalance"></div>
-                            </div>
-                            <div class="balance-row">
-                                <div class="balance-label">ESTE ABONO</div>
-                                <div class="balance-value" id="preview-amount2"></div>
-                            </div>
-                            <div class="balance-row">
-                                <div class="balance-label">SALDO ACTUAL</div>
-                                <div class="balance-value" id="preview-currentBalance"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="invoice-footer">
-                        <div class="signature-box">
-                            <div>Firma</div>
-                            <div class="signature-line"></div>
-                            <div id="preview-signature-container">
-                                <img id="preview-signature-img"
-                                    style="max-width: 100%; height: auto; margin-top: 10px;">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="invoice-notes">
-                        ORIGINAL: CLIENTE - COPIA: CONTABILIDAD
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-actions">
-                <button class="btn-share" onclick="sharePDF()">
-                    <i class="fas fa-share-alt" aria-hidden="true"></i> Compartir PDF
-                </button>
-                <button class="btn-download" onclick="downloadPDF()">
-                    <i class="fas fa-download" aria-hidden="true"></i> Descargar PDF
-                </button>
-                <button class="btn-close-modal" onclick="closeInvoiceModal()">Cerrar</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Variables para el canvas de firma
-        let canvas, ctx;
-        let isDrawing = false;
-        let lastX = 0;
-        let lastY = 0;
-        let signatureDataUrl = '';
-
-        // Inicializar canvas de firma
-        function initSignatureCanvas() {
-            canvas = document.getElementById('signatureCanvas');
-            ctx = canvas.getContext('2d');
-
-            // Ajustar tamaño del canvas
-            const rect = canvas.getBoundingClientRect();
-            canvas.width = rect.width;
-            canvas.height = rect.height;
-
-            // Configurar estilo del pincel
-            ctx.strokeStyle = '#000000';
-            ctx.lineWidth = 2;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-
-            // Eventos del canvas
-            canvas.addEventListener('mousedown', startDrawing);
-            canvas.addEventListener('mousemove', draw);
-            canvas.addEventListener('mouseup', stopDrawing);
-            canvas.addEventListener('mouseout', stopDrawing);
-
-            // Eventos táctiles para dispositivos móviles
-            canvas.addEventListener('touchstart', handleTouchStart);
-            canvas.addEventListener('touchmove', handleTouchMove);
-            canvas.addEventListener('touchend', stopDrawing);
-        }
-
-        function startDrawing(e) {
-            isDrawing = true;
-            [lastX, lastY] = getCoordinates(e);
-        }
-
-        function draw(e) {
-            if (!isDrawing) return;
-
-            const [x, y] = getCoordinates(e);
-
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(x, y);
-            ctx.stroke();
-
-            [lastX, lastY] = [x, y];
-        }
-
-        function stopDrawing() {
-            isDrawing = false;
-            // Guardar la firma como data URL
-            signatureDataUrl = canvas.toDataURL();
-        }
-
-        function getCoordinates(e) {
-            let x, y;
-
-            if (e.type.includes('touch')) {
-                const rect = canvas.getBoundingClientRect();
-                x = e.touches[0].clientX - rect.left;
-                y = e.touches[0].clientY - rect.top;
-            } else {
-                x = e.offsetX;
-                y = e.offsetY;
-            }
-
-            return [x, y];
-        }
-
-        function handleTouchStart(e) {
-            e.preventDefault();
-            startDrawing(e);
-        }
-
-        function handleTouchMove(e) {
-            e.preventDefault();
-            draw(e);
-        }
-
-        // Función para validar formulario
-        function validateForm() {
-            const requiredFields = [
-                { id: 'issuerName', name: 'Nombre o Empresa' },
-                { id: 'issuerId', name: 'Cédula de Identidad o Jurídica' },
-                { id: 'date', name: 'Fecha' },
-                { id: 'recipient', name: 'RECIBIMOS DE' },
-                { id: 'amount', name: 'LA SUMA DE' },
-                { id: 'concept', name: 'POR CONCEPTO DE' }
-            ];
-
-            for (let field of requiredFields) {
-                const value = document.getElementById(field.id).value.trim();
-                if (!value) {
-                    showToast(`Por favor, complete el campo: ${field.name}`, true);
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        // Función para actualizar la factura con los datos del formulario
-        function updateInvoice() {
-            // Obtener valores del formulario del emisor
-            const issuerName = document.getElementById('issuerName').value || 'Su Nombre o el de su Empresa';
-            const issuerId = document.getElementById('issuerId').value || 'Su Cédula de Identidad o Jurídica';
-            const issuerPhone = document.getElementById('issuerPhone').value || 'Su Teléfono: 8888-8888 / 8888-8888';
-            const issuerEmail = document.getElementById('issuerEmail').value || 'sunombre@saudominio.com';
-            const issuerWebsite = document.getElementById('issuerWebsite').value || '';
-            const issuerAddress = document.getElementById('issuerAddress').value || 'Su Dirección';
-
-            // Obtener valores del formulario del recibo
-            const dateInput = document.getElementById('date').value;
-            let day, month, year;
-
-            if (dateInput) {
-                const date = new Date(dateInput);
-                day = date.getDate();
-                month = date.toLocaleString('es-ES', { month: 'long' }).toUpperCase();
-                year = date.getFullYear();
-            } else {
-                const now = new Date();
-                day = now.getDate();
-                month = now.toLocaleString('es-ES', { month: 'long' }).toUpperCase();
-                year = now.getFullYear();
-            }
-
-            const recipient = document.getElementById('recipient').value || '____________________';
-            const amount = document.getElementById('amount').value || '____________________';
-            const concept = document.getElementById('concept').value || '____________________';
-            const previousBalance = document.getElementById('previousBalance').value || '____________________';
-            const currentBalance = document.getElementById('currentBalance').value || '____________________';
-
-            // Obtener método de pago seleccionado
-            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
-
-            // Actualizar la vista previa
-            document.getElementById('preview-issuerName').innerHTML = `<strong>${issuerName}</strong>`;
-            document.getElementById('preview-issuerId').textContent = issuerId;
-            document.getElementById('preview-issuerPhone').textContent = `Teléfono: ${issuerPhone}`;
-            document.getElementById('preview-issuerEmail').textContent = issuerEmail;
-            document.getElementById('preview-issuerWebsite').textContent = issuerWebsite || 'No especificado';
-            document.getElementById('preview-issuerAddress').textContent = issuerAddress;
-
-            document.getElementById('preview-recipient').textContent = recipient;
-            document.getElementById('preview-amount').textContent = amount;
-            document.getElementById('preview-amount2').textContent = amount;
-            document.getElementById('preview-concept').textContent = concept;
-            document.getElementById('preview-previousBalance').textContent = previousBalance;
-            document.getElementById('preview-currentBalance').textContent = currentBalance;
-
-            // Actualizar método de pago seleccionado (solo mostrar el seleccionado)
-            document.getElementById('preview-payment').textContent = paymentMethod;
-
-            // Actualizar la firma en la vista previa
-            const signatureImg = document.getElementById('preview-signature-img');
-            if (signatureDataUrl) {
-                signatureImg.src = signatureDataUrl;
-                signatureImg.style.display = 'block';
-            } else {
-                signatureImg.style.display = 'none';
-            }
-        }
-
-        // Función para mostrar el modal con la factura
-        function showInvoiceModal() {
-            if (!validateForm()) return;
-
-            updateInvoice();
-            document.getElementById('invoiceModal').style.display = 'block';
-        }
-
-        // Función para cerrar el modal
-        function closeInvoiceModal() {
-            document.getElementById('invoiceModal').style.display = 'none';
-        }
-
-        // Función para descargar la factura como PDF
-        function downloadPDF() {
-            showLoading(true);
-
-            // Crear una copia del elemento invoice para el PDF
-            const invoiceElement = document.getElementById('invoice').cloneNode(true);
-
-            // Asegurarse de que la firma se incluya en el PDF
-            const signatureImg = invoiceElement.querySelector('#preview-signature-img');
-            if (signatureDataUrl && signatureImg) {
-                signatureImg.src = signatureDataUrl;
-            }
-
-            // Opciones para html2pdf
-            const options = {
-                margin: 10,
-                filename: 'factura.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: {
-                    scale: 2,
-                    useCORS: true,
-                    logging: false
-                },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            // Generar PDF
-            html2pdf()
-                .set(options)
-                .from(invoiceElement)
-                .save()
-                .then(() => {
-                    showLoading(false);
-                    showToast('PDF descargado exitosamente');
-                })
-                .catch(error => {
-                    showLoading(false);
-                    console.error('Error al generar PDF:', error);
-                    showToast('Error al generar PDF', true);
-                });
-        }
-
-        // Función para compartir el PDF
-        async function sharePDF() {
-            showLoading(true);
-
-            // Crear una copia del elemento invoice para el PDF
-            const invoiceElement = document.getElementById('invoice').cloneNode(true);
-
-            // Asegurarse de que la firma se incluya en el PDF
-            const signatureImg = invoiceElement.querySelector('#preview-signature-img');
-            if (signatureDataUrl && signatureImg) {
-                signatureImg.src = signatureDataUrl;
-            }
-
-            try {
-                // Generar el PDF como blob
-                const pdfBlob = await generatePDFBlob(invoiceElement);
-
-                // Crear archivo para compartir
-                const file = new File([pdfBlob], 'factura.pdf', { type: 'application/pdf' });
-
-                // Verificar si la Web Share API está disponible
-                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share({
-                        files: [file],
-                        title: 'Factura',
-                        text: 'Compartiendo factura generada'
-                    });
-                    showToast('PDF compartido exitosamente');
-                } else {
-                    // Fallback: descargar el PDF
-                    downloadPDF();
-                }
-            } catch (error) {
-                console.error('Error al compartir:', error);
-
-                if (error.name !== 'AbortError') {
-                    showToast('Error al compartir PDF', true);
-                }
-            } finally {
-                showLoading(false);
-            }
-        }
-
-        // Función para generar PDF como Blob
-        function generatePDFBlob(element) {
-            return new Promise((resolve, reject) => {
-                const options = {
-                    margin: 10,
-                    filename: 'factura.pdf',
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: {
-                        scale: 2,
-                        useCORS: true,
-                        logging: false,
-                        onclone: function (clonedDoc) {
-                            // Asegurar que la firma se cargue en el documento clonado
-                            const signatureImg = clonedDoc.querySelector('#preview-signature-img');
-                            if (signatureDataUrl && signatureImg) {
-                                signatureImg.src = signatureDataUrl;
-                            }
-                        }
-                    },
-                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-                };
-
-                html2pdf()
-                    .set(options)
-                    .from(element)
-                    .outputPdf('blob')
-                    .then(resolve)
-                    .catch(reject);
-            });
-        }
-
-        // Función para mostrar/ocultar loading
-        function showLoading(show) {
-            document.getElementById('loading').style.display = show ? 'flex' : 'none';
-        }
-
-        // Función para mostrar mensajes toast
-        function showToast(message, isError = false) {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toast-message');
-
-            toastMessage.textContent = message;
-
-            if (isError) {
-                toast.classList.add('error');
-            } else {
-                toast.classList.remove('error');
-            }
-
-            toast.style.display = 'flex';
-
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 3000);
-        }
-
-        // Configurar eventos cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', function () {
-            // Inicializar canvas de firma
-            initSignatureCanvas();
-
-            // Configurar fecha actual por defecto
-            const today = new Date();
-            const formattedDate = today.toISOString().split('T')[0];
-            document.getElementById('date').value = formattedDate;
-
-            // Botón para limpiar la firma
-            document.getElementById('clearSignature').addEventListener('click', function () {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                signatureDataUrl = '';
-                const signatureImg = document.getElementById('preview-signature-img');
-                signatureImg.style.display = 'none';
-            });
-
-            // Cerrar modal si se hace clic fuera de él
-            window.addEventListener('click', function (event) {
-                const modal = document.getElementById('invoiceModal');
-                if (event.target === modal) {
-                    closeInvoiceModal();
-                }
-            });
-
-            // Cerrar modal con tecla Escape
-            document.addEventListener('keydown', function (event) {
-                if (event.key === 'Escape') {
-                    closeInvoiceModal();
-                }
-            });
-
-            // Prevenir el desplazamiento cuando se dibuje en el canvas
-            document.addEventListener('touchmove', function (e) {
-                if (e.target === canvas) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
-        });
-    </script>
+    <!-- CARGA DE ARCHIVOS JAVASCRIPT -->
+    <script src="js/script.js"></script>
 </body>
 
 </html>

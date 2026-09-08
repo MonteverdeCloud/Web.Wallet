@@ -1,0 +1,14 @@
+{
+    "empresa": {
+        "nombre": "InnoCR",
+        "direccion": "100 metros norte de la escuela, San José",
+        "telefono": "8888-8888",
+        "correo": "prueba@empresa.com",
+        "sitioWeb": "www.empresa.com",
+        "logo": "/img/logo.jpg"
+    },
+    "proforma": {
+        "numero": "2026071301",
+        "iva": 13
+    }
+}
